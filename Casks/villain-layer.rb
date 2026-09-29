@@ -3,8 +3,8 @@
 # version and the .dmg's SHA-256 (docs/releasing.md). Change the cask here,
 # not in the tap, which is overwritten.
 cask "villain-layer" do
-  version "0.2.0"
-  sha256 "7985dbbc1495e39d5f1325cf7220b01afb83dde6df9fda57322d9ac84b0d045b"
+  version "0.3.0"
+  sha256 "579584fec0bcbbeb49b9702e85d243ffaf303f369923c58e675a1a64c63bf16a"
 
   url "https://github.com/Villain-Studios/villain-layer/releases/download/v#{version}/Villain-Layer-#{version}-macos-universal.dmg"
   name "Villain Layer"
