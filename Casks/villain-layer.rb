@@ -3,8 +3,8 @@
 # version and the .dmg's SHA-256 (docs/releasing.md). Change the cask here,
 # not in the tap, which is overwritten.
 cask "villain-layer" do
-  version "0.5.0"
-  sha256 "3dcc20aa55c60e32a71af3c2d32f8f0a30a3ad6b451651406fd22a183e83abff"
+  version "0.6.0"
+  sha256 "b1612a99ee673378d448422b1100173a7cf0b155d375d2c3bf293a92c39aca24"
 
   url "https://github.com/Villain-Studios/villain-layer/releases/download/v#{version}/Villain-Layer-#{version}-macos-universal.dmg"
   name "Villain Layer"
@@ -16,8 +16,9 @@ cask "villain-layer" do
     strategy :github_latest
   end
 
-  # Only macOS 27 has been tried. Lower this once an older one has been.
-  depends_on macos: :golden_gate
+  # macOS 26 is the oldest the tests run on (check.yml pins it). Lower this
+  # once an older one has been tried.
+  depends_on macos: :tahoe
 
   app "Villain Layer.app"
 
