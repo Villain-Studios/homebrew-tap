@@ -1,26 +1,27 @@
-# The cask in Villain-Studios/homebrew-tap, written from this file by
-# .github/workflows/tap.yml when a release is published: it fills in the
+# The cask in code-villain/homebrew-tap on git.codevillain.eu, written from
+# this file by `bun run release:publish` (scripts/release.ts): it fills in the
 # version and the .dmg's SHA-256 (docs/releasing.md). Change the cask here,
 # not in the tap, which is overwritten.
 cask "villain-layer" do
-  version "0.8.0"
-  sha256 "8fdef0c572bc9b2541f45ff1f85f3d2060db147067bbcdb861ec847c2fcf494f"
+  version "0.9.0"
+  sha256 "45d0f8c225ace4d89330f21972312ffc60c0b25d12874b6597f5aeeefeede90d"
 
-  url "https://github.com/Villain-Studios/villain-layer/releases/download/v#{version}/Villain-Layer-#{version}-macos-universal.dmg"
-  name "Villain Layer"
+  url "https://git.codevillain.eu/code-villain/vault/releases/download/layer-v#{version}/Layer-#{version}-macos-arm64.dmg"
+  name "Layer"
   desc "Agent development environment"
-  homepage "https://github.com/Villain-Studios/villain-layer"
+  homepage "https://git.codevillain.eu/code-villain/vault/src/branch/main/apps/layer"
 
   livecheck do
-    url :url
-    strategy :github_latest
+    url "https://git.codevillain.eu/code-villain/vault/releases"
+    regex(/layer-v?(\d+(?:\.\d+)+)/i)
   end
 
   # macOS 26 is the oldest the tests run on (check.yml pins it). Lower this
   # once an older one has been tried.
+  depends_on arch: :arm64
   depends_on macos: :tahoe
 
-  app "Villain Layer.app"
+  app "Layer.app"
 
   # Replacing the bundle under a running app kills it, and every agent
   # running in it. `uninstall quit:` would not help: quitting ends them too.
@@ -30,8 +31,8 @@ cask "villain-layer" do
     run "/bin/sh",
         args: [
           "-c",
-          "if /usr/bin/pgrep -f 'Villain Layer[.]app/Contents/MacOS/villain-layer' >/dev/null; then " \
-          "echo 'Villain Layer is running. Quit it first, from a terminal outside it: replacing " \
+          "if /usr/bin/pgrep -f 'Layer[.]app/Contents/MacOS/villain-layer' >/dev/null; then " \
+          "echo 'Layer is running. Quit it first, from a terminal outside it: replacing " \
           "the app while it runs kills it, and every agent running in it.' >&2; exit 1; fi",
         ]
   end
@@ -47,7 +48,12 @@ cask "villain-layer" do
   ]
 
   caveats <<~EOS
-    Villain Layer is not notarised by Apple yet, so macOS stops it the first
+    Layer has moved, and this tap gets no more updates. Switch to the new one:
+      brew untap code-villain-hq/tap
+      brew tap code-villain/tap https://git.codevillain.eu/code-villain/homebrew-tap
+      brew trust --cask code-villain/tap/villain-layer
+
+    Layer is not notarised by Apple yet, so macOS stops it the first
     time with "Apple could not verify…". Choose Done, then System Settings →
     Privacy & Security → Open Anyway. macOS also asks for keychain access
     again after each upgrade.
